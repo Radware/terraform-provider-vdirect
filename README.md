@@ -8,7 +8,7 @@ A Terraform provider for [Radware vDirect](https://www.radware.com/products/vdir
 -	[Go](https://golang.org/doc/install) 1.11 (to build the provider plugin)
 
 # Radware vDirect requirements
-- This provider uses the vDirect REST API, make sure that it is installed in your environment.
+- This provider uses the vDirect REST API, make sure vDirect VA is installed in your environment.
 - All the resources are validated with vDirect 4.6
 
 # Using the Provider
