@@ -1,3 +1,5 @@
+<img src="https://www.radware.com/RadwareSite/MediaLibraries/Images/logo.svg" width="300px">
+
 # Overview
 A [Terraform](terraform.io) provider for [Radware vDirect](https://www.radware.com/products/vdirect/).
 
