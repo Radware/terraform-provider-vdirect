@@ -39,6 +39,18 @@ func registerContainer() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"ssh_port": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"adc_username": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"adc_password": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+			},
 		},
 	}
 }
@@ -49,20 +61,23 @@ func registerContainerCreate(d *schema.ResourceData, m interface{}) error {
 	password := d.Get("vdirect_password").(string)
 	adcName := d.Get("adc_name").(string)
 	adcIp := d.Get("adc_ip").(string)
+	adcUsername := d.Get("adc_username").(string)
+	adcPassword := d.Get("adc_password").(string)
 	httpsPort := d.Get("https_port").(string)
+	sshPort := d.Get("ssh_port").(string)
 	message := map[string]interface{}{
 		"name": adcName,
 		"type": "AlteonDedicated",
 		"configuration": map[string]string{
 			"configProtocol": "HTTPS",
 			"host":           adcIp,
-			"cli.user":       "admin",
-			"cli.password":   "admin",
+			"cli.user":       adcUsername,
+			"cli.password":   adcPassword,
 			"cli.ssh":        "true",
-			"cli.port":       "22",
+			"cli.port":       sshPort,
 			"https.port":     httpsPort,
-			"https.user":     "admin",
-			"https.password": "admin",
+			"https.user":     adcUsername,
+			"https.password": adcPassword,
 		},
 	}
 
