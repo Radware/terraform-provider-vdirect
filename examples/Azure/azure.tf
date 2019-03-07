@@ -82,7 +82,7 @@ provider "radware" {
   
 }
 
-resource "radware_container_register" "my-container" {
+resource "vdirect_container_register" "my-container" {
 	address = "10.210.71.71"
 	username = "root"
 	password = "radware"
@@ -96,7 +96,7 @@ resource "radware_container_register" "my-container" {
   depends_on = ["azurerm_public_ip.pip"]
 }
 
-resource "radware_runnable_template" "my-template" {
+resource "vdirect_runnable_template" "my-template" {
 	address = "10.210.71.71"
 	username = "root"
 	password = "radware"
