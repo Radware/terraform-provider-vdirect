@@ -105,5 +105,5 @@ resource "vdirect_runnable_template" "my-template" {
 	action = "run"
 	paramaters = "{\"alteon\":{\"type\":\"Container\",\"name\":\"tf-test-azure\"},\"real_servers\":[{\"name\":\"test\",\"address\":\"1.1.1.1\",\"weight\":1,\"state\":\"disable\",\"action\":\"create\"}],\"__dryRun\":false}"
 
-  depends_on = ["radware_container_register.my-container"]
+  depends_on = ["vdirect_container_register.my-container"]
 }
