@@ -89,6 +89,9 @@ resource "radware_container_register" "my-container" {
   adc_name = "tf-test-azure"
   adc_ip = "${azurerm_public_ip.pip.ip_address}"
   https_port = "8443"
+  ssh_port = "22"
+	adc_username = "admin"
+	adc_password = "admin"
 
   depends_on = ["azurerm_public_ip.pip"]
 }
