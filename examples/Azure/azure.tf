@@ -83,9 +83,9 @@ provider "radware" {
 }
 
 resource "vdirect_container_register" "my-container" {
-	address = "10.210.71.71"
-	username = "root"
-	password = "radware"
+  vdirect_ip = "10.210.71.71"
+	vdirect_username = "root"
+	vdirect_password = "radware"
   adc_name = "tf-test-azure"
   adc_ip = "${azurerm_public_ip.pip.ip_address}"
   https_port = "8443"
@@ -97,9 +97,9 @@ resource "vdirect_container_register" "my-container" {
 }
 
 resource "vdirect_runnable_template" "my-template" {
-	address = "10.210.71.71"
-	username = "root"
-	password = "radware"
+  vdirect_ip = "10.210.71.71"
+	vdirect_username = "root"
+	vdirect_password = "radware"
 	runnable_type = "ConfigurationTemplate"
 	runnable_name = "real_servers_crud.vm"
 	action = "run"
