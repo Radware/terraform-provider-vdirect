@@ -36,11 +36,11 @@ func registerContainer() *schema.Resource {
 				Required: true,
 			},
 			"https_port": &schema.Schema{
-				Type:     schema.TypeString,
+				Type:     schema.TypeInt,
 				Required: true,
 			},
 			"ssh_port": &schema.Schema{
-				Type:     schema.TypeString,
+				Type:     schema.TypeInt,
 				Required: true,
 			},
 			"adc_username": &schema.Schema{
@@ -63,26 +63,23 @@ func registerContainerCreate(d *schema.ResourceData, m interface{}) error {
 	adcIp := d.Get("adc_ip").(string)
 	adcUsername := d.Get("adc_username").(string)
 	adcPassword := d.Get("adc_password").(string)
-	httpsPort := d.Get("https_port").(string)
-	sshPort := d.Get("ssh_port").(string)
-	message := map[string]interface{}{
-		"name": adcName,
-		"type": "AlteonDedicated",
-		"configuration": map[string]string{
-			"configProtocol": "HTTPS",
-			"host":           adcIp,
-			"cli.user":       adcUsername,
-			"cli.password":   adcPassword,
-			"cli.ssh":        "true",
-			"cli.port":       sshPort,
-			"https.port":     httpsPort,
-			"https.user":     adcUsername,
-			"https.password": adcPassword,
-		},
-	}
+	httpsPort := d.Get("https_port").(int)
+	sshPort := d.Get("ssh_port").(int)
+
+	message := new(adcConfig)
+	message.Name = adcName
+	message.Connect.Cli.Port = sshPort
+	message.Connect.Cli.User = adcUsername
+	message.Connect.Cli.Password = adcPassword
+	message.Connect.Cli.SSH = true
+	message.Connect.HTTPS.Port = httpsPort
+	message.Connect.HTTPS.User = adcUsername
+	message.Connect.HTTPS.Password = adcPassword
+	message.Connect.IP = adcIp
+	message.Connect.ConfigProtocol = "HTTPS"
 
 	client := vdirect.NewClient(vdirectIP, username, password, vdirect.NewClientConfig(true, 120, false, 120))
-	resp := client.Container.Create0(message, "false")
+	resp := client.ADC.Create(message, "false")
 
 	// check response code
 	if resp.StatusCode != 201 {
@@ -107,7 +104,7 @@ func registerContainerDelete(d *schema.ResourceData, m interface{}) error {
 	password := d.Get("vdirect_password").(string)
 	adcName := d.Get("adc_name").(string)
 	client := vdirect.NewClient(vdirectIP, username, password, vdirect.NewClientConfig(true, 120, false, 120))
-	resp := client.Container.Delete(adcName)
+	resp := client.ADC.Delete(adcName, "DELETE")
 
 	// check response code
 	if resp.StatusCode != 204 {
@@ -115,4 +112,28 @@ func registerContainerDelete(d *schema.ResourceData, m interface{}) error {
 	}
 	d.SetId("")
 	return nil
+}
+
+type adcConfig struct {
+	Name                string        `json:"name"`
+	Tenants             []interface{} `json:"tenants"`
+	ExtensionProperties struct {
+	} `json:"extensionProperties"`
+	Connect struct {
+		Snmp struct {
+		} `json:"snmp"`
+		Cli struct {
+			Port     int    `json:"port"`
+			User     string `json:"user"`
+			Password string `json:"password"`
+			SSH      bool   `json:"ssh"`
+		} `json:"cli"`
+		HTTPS struct {
+			User     string `json:"user"`
+			Password string `json:"password"`
+			Port     int    `json:"port"`
+		} `json:"https"`
+		IP             string `json:"ip"`
+		ConfigProtocol string `json:"configProtocol"`
+	} `json:"connect"`
 }

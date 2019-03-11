@@ -7,8 +7,9 @@ import (
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		ResourcesMap: map[string]*schema.Resource{
-			"vdirect_container_register": registerContainer(),
-			"vdirect_runnable_template":  runnableTemplate(),
+			"vdirect_container_register":  registerContainer(),
+			"vdirect_runnable_template":   runnableTemplate(),
+			"vdirect_idle_timeout_change": idleTimeoutChange(),
 		},
 	}
 }

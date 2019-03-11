@@ -165,8 +165,8 @@ func call(details *connectionDetails,
 	headers map[string]string,
 	async bool,
 	notJson bool) VDirectClientResponse {
-	var url = fmt.Sprintf("https://%s:2189/api/%s", details.address, urlPostfix)
-	//var url = fmt.Sprintf("http://%s:2188/api/%s", details.address, urlPostfix)
+	//var url = fmt.Sprintf("https://%s:2189/api/%s", details.address, urlPostfix)
+	var url = fmt.Sprintf("http://%s:2188/api/%s", details.address, urlPostfix)
 	upperVerb := strings.ToUpper(verb)
 	if isValidHTTPVerb(upperVerb) {
 		req, err := http.NewRequest(upperVerb, url, getRequestBody(payload, notJson))
@@ -301,7 +301,7 @@ func (c *ADC) Delete(adcName string, action string) VDirectClientResponse {
 	args["action"] = action
 
 	var headers map[string]string
-	finalPath := fmt.Sprintf("adc/%s/", adcName) + mapToQuery(args)
+	finalPath := fmt.Sprintf("adc/%s/?action=unregister", adcName) // + mapToQuery(args)
 	return call(c.details, c.client, "DELETE", finalPath, nil, headers, true, false)
 
 }
@@ -345,15 +345,15 @@ func (c *ADC) Create(data interface{}, validate string) VDirectClientResponse {
 
 	headers := make(map[string]string)
 	headers["Content-Type"] = "application/vnd.com.radware.vdirect.adc+json"
-	finalPath := "adc/" + mapToQuery(args)
+	finalPath := "adc/" //+ mapToQuery(args)
 	return call(c.details, c.client, "POST", finalPath, &data, headers, true, false)
 
 }
-func (c *ADC) UpdateConfiguration(data interface{}, adcName string) VDirectClientResponse {
+func (c *ADC) UpdateConfiguration(data interface{}, adcName string, property string) VDirectClientResponse {
 
 	headers := make(map[string]string)
-	headers["Content-Type"] = "text/plain"
-	finalPath := fmt.Sprintf("adc/%s/config/", adcName)
+	headers["Content-Type"] = "application/json"
+	finalPath := fmt.Sprintf("adc/%s/config/?prop=%s", adcName, property)
 	return call(c.details, c.client, "POST", finalPath, &data, headers, false, false)
 
 }

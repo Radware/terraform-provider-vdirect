@@ -78,7 +78,7 @@ resource "azurerm_virtual_machine" "vm" {
   }
 }
 
-provider "radware" {
+provider "vdirect" {
   
 }
 
@@ -88,8 +88,8 @@ resource "vdirect_container_register" "my-container" {
 	vdirect_password = "radware"
   adc_name = "tf-test-azure"
   adc_ip = "${azurerm_public_ip.pip.ip_address}"
-  https_port = "8443"
-  ssh_port = "22"
+  https_port = 8443
+  ssh_port = 22
 	adc_username = "admin"
 	adc_password = "admin"
 
@@ -103,7 +103,7 @@ resource "vdirect_runnable_template" "my-template" {
 	runnable_type = "ConfigurationTemplate"
 	runnable_name = "real_servers_crud.vm"
 	action = "run"
-	paramaters = "{\"alteon\":{\"type\":\"Container\",\"name\":\"tf-test-azure\"},\"real_servers\":[{\"name\":\"test\",\"address\":\"1.1.1.1\",\"weight\":1,\"state\":\"disable\",\"action\":\"create\"}],\"__dryRun\":false}"
+	paramaters = "{\"alteon\":{\"type\":\"Adc\",\"name\":\"tf-test-azure\"},\"real_servers\":[{\"name\":\"test\",\"address\":\"1.1.1.1\",\"weight\":1,\"state\":\"disable\",\"action\":\"create\"}],\"__dryRun\":false}"
 
   depends_on = ["vdirect_container_register.my-container"]
 }
