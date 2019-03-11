@@ -13,8 +13,8 @@ resource "vdirect_container_register" "my-container" {
     vdirect_password = "radware"
     adc_name = "tf-test"
     adc_ip = "10.210.71.33"
-    https_port = "443"
-    ssh_port = "22"
+    https_port = 443
+    ssh_port = 22
     adc_username = "admin"
     adc_password = "admin"
 }
