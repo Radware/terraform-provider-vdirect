@@ -14,7 +14,7 @@ resource "vdirect_runnable_template" "my-template" {
     runnable_type = "ConfigurationTemplate"
     runnable_name = "real_servers_crud.vm"
     action = "run"
-    paramaters = "{\"alteon\":{\"type\":\"Container\",\"name\":\"tf-test\"},\"real_servers\":[{\"name\":\"test\",\"address\":\"1.1.1.1\",\"weight\":1,\"state\":\"disable\",\"action\":\"create\"}],\"__dryRun\":false}"
+    paramaters = "{\"alteon\":{\"type\":\"Adc\",\"name\":\"tf-test\"},\"real_servers\":[{\"name\":\"test\",\"address\":\"1.1.1.1\",\"weight\":1,\"state\":\"disable\",\"action\":\"create\"}],\"__dryRun\":false}"
 
 }
 
