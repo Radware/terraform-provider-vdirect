@@ -165,8 +165,8 @@ func call(details *connectionDetails,
 	headers map[string]string,
 	async bool,
 	notJson bool) VDirectClientResponse {
-	//var url = fmt.Sprintf("https://%s:2189/api/%s", details.address, urlPostfix)
-	var url = fmt.Sprintf("http://%s:2188/api/%s", details.address, urlPostfix)
+	var url = fmt.Sprintf("https://%s:2189/api/%s", details.address, urlPostfix)
+	//var url = fmt.Sprintf("http://%s:2188/api/%s", details.address, urlPostfix)
 	upperVerb := strings.ToUpper(verb)
 	if isValidHTTPVerb(upperVerb) {
 		req, err := http.NewRequest(upperVerb, url, getRequestBody(payload, notJson))
